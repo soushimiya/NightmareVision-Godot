@@ -1,13 +1,14 @@
 extends Node
 
-static var defaultLibrary:String = "shared/"
-
-static func getPath(path:String, library:String = defaultLibrary) -> String:
-	var prefix = "res://assets/";
+static var currentLibrary = "shared"
+static func getPath(path:String, library:String = currentLibrary) -> String:
+	var prefix = "assets/";
 	if (OS.has_feature("standalone")):
 		prefix = OS.get_executable_path() + "/" + prefix
+	else:
+		prefix = "res://" + prefix
 		
-	return prefix + library + path
+	return prefix + currentLibrary + "/" + path
 
 static var currentTrackedAssets = {}
 static func image(path:String, folder:String = "images"):

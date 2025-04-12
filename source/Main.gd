@@ -8,6 +8,4 @@ func _ready() -> void:
 		window.size = Vector2i(1280*2, 720*2)
 		
 	window.move_to_center()
-	
-	print(Assets.getSound("assets/songs/bopeebo/Inst.ogg"))
 	#Global.switchState()
