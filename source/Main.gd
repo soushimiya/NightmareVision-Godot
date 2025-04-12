@@ -9,5 +9,5 @@ func _ready() -> void:
 		
 	window.move_to_center()
 	
-	print(Paths.image("characters/Pico_FNF_assets"))
+	print(Assets.getSound("assets/songs/bopeebo/Inst.ogg"))
 	#Global.switchState()

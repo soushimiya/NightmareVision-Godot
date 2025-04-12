@@ -18,3 +18,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+func switchState(state:MusicBeatState):
+	get_node("/root/Main/game").add_child(state.instantiate())
+	self.queue_free()

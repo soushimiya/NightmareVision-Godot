@@ -14,16 +14,12 @@ config/name="NightmareVision"
 config/version="0.0.1"
 run/main_scene="res://source/Main.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
-boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/show_image=false
-boot_splash/fullsize=false
-boot_splash/use_filter=false
 config/icon="res://art/iconOG.png"
 
 [autoload]
 
-Global="*res://source/Global.gd"
-Paths="*res://source/backend/Paths.gd"
+Paths="*res://source/funkin/Paths.gd"
+Assets="*res://source/Assets.gd"
 
 [display]
 
@@ -34,4 +30,3 @@ window/stretch/mode="viewport"
 [rendering]
 
 renderer/rendering_method="mobile"
-environment/defaults/default_clear_color=Color(0, 0, 0, 1)
