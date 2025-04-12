@@ -7,7 +7,6 @@ static func getPath(path:String, library:String = currentLibrary) -> String:
 		prefix = OS.get_executable_path() + "/" + prefix
 	else:
 		prefix = "res://" + prefix
-		
 	return prefix + currentLibrary + "/" + path
 
 static var currentTrackedAssets = {}

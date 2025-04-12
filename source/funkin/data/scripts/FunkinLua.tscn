@@ -6,9 +6,11 @@ script/source = "extends Node2D
 
 @onready var lua = LuaState.new()
 # Called when the node enters the scene tree for the first time.
-func load(path, parent = self) -> void:
+func _ready() -> void:
 	lua.open_libraries()
 	lua.globals[\"Paths\"] = Paths
+
+func load(path, parent):	
 	lua.globals[\"self\"] = parent
 	
 	var result = lua.do_file(path)

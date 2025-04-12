@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dk4cf75g3bkq3"]
+[gd_scene load_steps=3 format=3 uid="uid://dk4cf75g3bkq3"]
 
 [ext_resource type="Script" path="res://source/funkin/states/PlayState.gd" id="1_nfklt"]
+[ext_resource type="Script" path="res://source/funkin/objects/Stage.gd" id="2_pu5lr"]
 
 [node name="PlayState" type="Node2D"]
 script = ExtResource("1_nfklt")
+
+[node name="stage" type="Node2D" parent="."]
+script = ExtResource("2_pu5lr")
+
+[node name="foreground" type="Node2D" parent="."]
+
+[node name="camGame" type="Camera2D" parent="."]
