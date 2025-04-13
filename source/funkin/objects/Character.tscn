@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://ueifft8ho4lk"]
+
+[ext_resource type="SpriteFrames" uid="uid://caga6mxdtywu0" path="res://assets/shared/images/characters/BOYFRIEND.xml" id="1_ise0m"]
+[ext_resource type="Script" path="res://source/funkin/objects/Character.gd" id="2_5jeus"]
+
+[node name="Character" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_ise0m")
+animation = &"BF HEY!!"
+script = ExtResource("2_5jeus")

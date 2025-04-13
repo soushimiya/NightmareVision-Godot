@@ -1,8 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://d1cpcvojf4hgm"]
+[gd_scene load_steps=3 format=3 uid="uid://d1cpcvojf4hgm"]
 
 [ext_resource type="Script" path="res://source/Main.gd" id="1_2tgj5"]
+
+[sub_resource type="SystemFont" id="SystemFont_j6tm8"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_2tgj5")
 
 [node name="game" type="Node2D" parent="."]
+
+[node name="fpsVar" type="CanvasLayer" parent="."]
+
+[node name="text" type="Label" parent="fpsVar"]
+offset_left = 8.0
+offset_right = 202.0
+offset_bottom = 20.0
+theme_override_fonts/font = SubResource("SystemFont_j6tm8")
+theme_override_font_sizes/font_size = 14
+text = "FPS: 9999 • Memory: 9999MB"
+vertical_alignment = 1

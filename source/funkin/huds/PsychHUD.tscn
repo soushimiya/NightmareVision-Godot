@@ -1,0 +1,101 @@
+[gd_scene load_steps=6 format=3 uid="uid://ye2ssjowmg54"]
+
+[ext_resource type="Texture2D" uid="uid://dowpyaiu4hwnw" path="res://assets/shared/images/healthBar.png" id="1_0uglt"]
+[ext_resource type="FontFile" uid="uid://g53b8ipf3ojy" path="res://assets/fonts/vcr.ttf" id="1_rheqv"]
+[ext_resource type="Texture2D" uid="uid://cty3baep713bt" path="res://assets/shared/images/timeBar.png" id="3_meako"]
+[ext_resource type="Texture2D" uid="uid://b70p7cvg0jf0w" path="res://assets/shared/images/icons/icon-bf.png" id="4_2uinm"]
+
+[sub_resource type="GDScript" id="GDScript_646u2"]
+resource_name = "PsychHUD"
+script/source = "extends CanvasLayer
+
+@onready var parent = get_node(\"/root/Main/game/PlayState\")
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	$iconP1.texture = Paths.image(\"icons/icon-\" + parent.get_node(\"boyfriend\").healthIcon)
+	$iconP2.texture = Paths.image(\"icons/icon-\" + parent.get_node(\"dad\").healthIcon)
+	
+	return
+	# broken some reason!
+	var dadColor = parent.get_node(\"dad\").healthColorArray
+	$healthBar.tint_under = Color(dadColor[0], dadColor[1], dadColor[2])
+	var bfColor = parent.get_node(\"boyfriend\").healthColorArray
+	$healthBar.tint_progress = Color(bfColor[0], bfColor[1], bfColor[2])
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta:float) -> void:
+	$iconP1.position.x = $healthBar.position.x/2 + (580 * remap($healthBar.value, 0, 100, 100, 0) * 0.01 + 210)
+	$iconP2.position.x = $healthBar.position.x/2 + (580 * remap($healthBar.value, 0, 100, 100, 0) * 0.01 + 150)
+
+func onHealthChange(health:float) -> void:
+	$healthBar.value = health/2*100
+	if health < 0.4:
+		$iconP1.frame = 1
+	else:
+		$iconP1.frame = 0
+	if health > 1.6:
+		$iconP2.frame = 1
+	else:
+		$iconP2.frame = 0
+"
+
+[node name="PsychHUD" type="CanvasLayer"]
+script = SubResource("GDScript_646u2")
+
+[node name="healthBar" type="TextureProgressBar" parent="."]
+offset_left = 340.0
+offset_top = 640.8
+offset_right = 941.0
+offset_bottom = 659.8
+value = 50.0
+fill_mode = 1
+texture_under = ExtResource("1_0uglt")
+texture_progress = ExtResource("1_0uglt")
+tint_under = Color(1, 0, 0, 1)
+tint_progress = Color(0, 1, 0, 1)
+
+[node name="iconP1" type="Sprite2D" parent="."]
+position = Vector2(336, 648)
+texture = ExtResource("4_2uinm")
+flip_h = true
+hframes = 2
+
+[node name="iconP2" type="Sprite2D" parent="."]
+position = Vector2(344, 648)
+texture = ExtResource("4_2uinm")
+hframes = 2
+
+[node name="scoreTxt" type="Label" parent="."]
+offset_left = 128.0
+offset_top = 680.0
+offset_right = 1152.0
+offset_bottom = 703.0
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("1_rheqv")
+theme_override_font_sizes/font_size = 20
+text = "Score: 999999 | Misses: 0 | Rating: You Suck! (20%) - FC"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="timeBar" type="TextureProgressBar" parent="."]
+offset_left = 440.0
+offset_top = 24.0
+offset_right = 840.0
+offset_bottom = 43.0
+value = 60.0
+texture_under = ExtResource("3_meako")
+texture_progress = ExtResource("3_meako")
+tint_under = Color(0, 0, 0, 1)
+
+[node name="timeTxt" type="Label" parent="."]
+offset_left = 600.0
+offset_top = 16.0
+offset_right = 680.0
+offset_bottom = 48.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("1_rheqv")
+theme_override_font_sizes/font_size = 32
+text = "2:30"
+horizontal_alignment = 1
+vertical_alignment = 1

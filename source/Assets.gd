@@ -15,10 +15,13 @@ static func getText(path:String) -> String:
 	var file = FileAccess.open(path, FileAccess.READ)
 	return file.get_as_text()
 
-static func getFont(path:String) -> String:
+static func getFont(path:String) -> FontFile:
 	var font = FontFile.new()
 	font.load_dynamic_font(path)
 	return font
 	
+static func getSparrowAtlas(path:String) -> SpriteFrames:
+	return null
+	
 static func exists(path) -> bool:
-	return true
+	return FileAccess.file_exists(path)

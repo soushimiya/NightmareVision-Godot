@@ -20,12 +20,19 @@ config/icon="res://art/iconOG.png"
 
 Paths="*res://source/funkin/Paths.gd"
 Assets="*res://source/Assets.gd"
+ClientPrefs="*res://source/funkin/data/ClientPrefs.gd"
+Song="*res://source/funkin/data/Song.gd"
+Conductor="*res://source/funkin/data/Conductor.gd"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="viewport"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_sparrow/plugin.cfg")
 
 [rendering]
 
