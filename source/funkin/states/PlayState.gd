@@ -15,6 +15,7 @@ var storyPlaylist:Array = []
 var storyDifficulty:int = 1
 
 var camFollow:Vector2 = Vector2()
+var camFollowTarget
 
 var prevCamFollow:Vector2
 var prevCamFollowPos:Node2D
@@ -27,10 +28,10 @@ var curSong:String = ""
 
 var health:float = 0:
 	set(value):
+		health = value
 		if (health > 2):
 			health = 2
-		$playHUD.onHealthChange(value)
-		health = value
+		playHUD.onHealthChange(value)
 
 var songLength:float = 0
 var songPercent:float = 0
@@ -63,11 +64,13 @@ static var deathCounter:int = 0
 var defaultCamZoomAdd:float = 0
 var defaultCamZoom:float = 1.05
 var defaultHudZoom:float = 1
-var beatsPerZoom:float = 4
+var beatsPerZoom:int = 4
 
 var inCutscene:bool = false
 
 var skipCountdown:bool = false
+
+@onready var playHUD = $hud/playHUD
 
 func setStageData(stageData):
 	defaultCamZoom = stageData.defaultZoom
@@ -118,6 +121,9 @@ func _ready() -> void:
 
 	songLength = $inst.stream.get_length()*10
 	
+	$boyfriend.curCharacter = SONG.player1
+	$dad.curCharacter = SONG.player2
+	
 	if (!SONG.has("stage")):
 		SONG.stage = 'stage'
 	else:
@@ -141,8 +147,9 @@ func getCharacterCameraPos(char):
 func moveCamera(isDad:bool):
 	var target = $boyfriend
 	if (isDad):
-		target = $dad
-	
+		target = $dad	
+	if camFollowTarget == target:
+		return
 	var desiredPos = getCharacterCameraPos(target)
 	camFollow = Vector2(target.global_position.x + desiredPos.x, target.global_position.y + desiredPos.y)
 
@@ -154,15 +161,23 @@ func _process(delta: float) -> void:
 		moveCamera(true)
 	if Input.is_action_pressed("ui_right"):
 		moveCamera(false)
-		
-	# this sucks but its ok """""for now"""""!!!!!
-	Conductor.songPosition += (delta * 1000.0)
+	
+	if ($inst.playing):
+		var instTime = $inst.get_playback_position() + AudioServer.get_time_since_last_mix()
+		Conductor.songPosition = (instTime * 1000.0)
+	
+	
 	songPercent = Conductor.songPosition / songLength
 	
 	$camGame.global_position = $camFollowPos.global_position
 	if camZooming:
 		$camGame.zoom.x = lerp(defaultCamZoom + defaultCamZoomAdd, $camGame.zoom.x, exp(-delta * 6.25 * camZoomingDecay))
+		$hud.scale.x = lerp(defaultHudZoom, $hud.scale.x, exp(-delta * 6.25 * camZoomingDecay))
 	$camGame.zoom.y = $camGame.zoom.x
+	$hud.scale.y = $hud.scale.x
+	# lazy fix of canvaslayer offsetting
+	$hud.offset.x = (-1280/2)*($hud.scale.x-1)
+	$hud.offset.y = (-720/2)*($hud.scale.y-1)
 	
 	if !inCutscene:
 		var lerpVal = CoolUtil.bound(delta * 2.4 * cameraSpeed, 0, 1)
@@ -170,14 +185,19 @@ func _process(delta: float) -> void:
 
 func stepHit():
 	super()
-	$playHUD.stepHit()
+	playHUD.stepHit()
 	
 func beatHit():
 	super()
-	$boyfriend.playAnim("idle", true)
-	$dad.playAnim("idle")
-	$playHUD.beatHit()
+	if camZooming && ClientPrefs.camZooms && (curBeat % beatsPerZoom) == 0:
+		$camGame.zoom.x += 0.015 * camZoomingMult
+		$hud.scale.x += 0.03 * camZoomingMult
+		
+	if curBeat % 2 == 0:
+		$boyfriend.playAnim("idle", true)
+		$dad.playAnim("idle", true)
+		playHUD.beatHit()
 
 func sectionHit():
 	super()
-	$playHUD.sectionHit()
+	playHUD.sectionHit()

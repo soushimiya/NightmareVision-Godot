@@ -1,18 +1,14 @@
 [gd_scene load_steps=7 format=3 uid="uid://dk4cf75g3bkq3"]
 
 [ext_resource type="Script" uid="uid://d1uqa8oytdud0" path="res://source/funkin/states/PlayState.gd" id="1_nfklt"]
-[ext_resource type="PackedScene" uid="uid://bilqpj2w17qv7" path="res://source/funkin/objects/PlayField.tscn" id="2_6ps67"]
 [ext_resource type="Script" uid="uid://cowsomex0m85s" path="res://source/funkin/objects/Stage.gd" id="2_pu5lr"]
 [ext_resource type="PackedScene" uid="uid://ueifft8ho4lk" path="res://source/funkin/objects/Character.tscn" id="3_40clv"]
 [ext_resource type="PackedScene" uid="uid://ye2ssjowmg54" path="res://source/funkin/huds/PsychHUD.tscn" id="3_68ab2"]
+[ext_resource type="PackedScene" uid="uid://nemp86sipw3r" path="res://source/funkin/objects/StrumNote.tscn" id="4_6ps67"]
 [ext_resource type="AudioStream" uid="uid://d20xrpy1novtm" path="res://assets/shared/music/breakfast.ogg" id="5_aviqu"]
 
 [node name="PlayState" type="Node2D"]
 script = ExtResource("1_nfklt")
-
-[node name="playFields" type="Node2D" parent="."]
-
-[node name="playerStrums" parent="playFields" instance=ExtResource("2_6ps67")]
 
 [node name="camGame" type="Camera2D" parent="."]
 
@@ -30,7 +26,18 @@ curCharacter = "dad"
 [node name="foreground" type="ParallaxBackground" parent="."]
 follow_viewport_enabled = true
 
-[node name="playHUD" parent="." instance=ExtResource("3_68ab2")]
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="hud" type="CanvasLayer" parent="."]
+
+[node name="playerStrums" type="Node2D" parent="hud"]
+position = Vector2(640, 96)
+
+[node name="StrumNote" parent="hud/playerStrums" instance=ExtResource("4_6ps67")]
+position = Vector2(-176, 8)
+animation = &"arrowLEFT"
+
+[node name="playHUD" parent="hud" instance=ExtResource("3_68ab2")]
 
 [node name="inst" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_aviqu")

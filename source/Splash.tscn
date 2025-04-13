@@ -1,6 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqd54dljefyly"]
-
-[ext_resource type="Texture2D" uid="uid://dcl3x3wr506fh" path="res://art/branding/Sonic Legacy.png" id="1_5liku"]
+[gd_scene load_steps=2 format=3 uid="uid://dqd54dljefyly"]
 
 [sub_resource type="GDScript" id="GDScript_psrl4"]
 resource_name = "Splash"
@@ -9,7 +7,7 @@ script/source = "extends MusicBeatState
 var graphics = [\"Crunchin\", \"Hit Single\", \"Sonic Legacy\"]
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$logo.texture = Assets.getBitmap(\"art/branding/\" + graphics.pick_random() + \".png\")
+	$logo.texture = load(\"res://art/branding/\" + graphics.pick_random() + \".png\")
 	var timer = Timer.new()
 	timer.one_shot = true
 	timer.timeout.connect(startSpriteEvents)
@@ -68,7 +66,6 @@ color = Color(0, 0, 0, 1)
 [node name="logo" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(640, 360)
-texture = ExtResource("1_5liku")
 
 [node name="timers" type="Node" parent="."]
 

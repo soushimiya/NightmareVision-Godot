@@ -5,7 +5,12 @@ var idleAnims:Array = ['idle']
 var animations:Dictionary = {}
 
 @export var isPlayer:bool = false
-@export var curCharacter:String = "bf"
+@export var curCharacter:String = "bf":
+	set(value):
+		if !Assets.exists(Paths.json(value, "characters")):
+			value = "bf"
+		curCharacter = value
+		reloadCharacter()
 var curAnim:String = "idle"
 var holdTimer:float = 0
 var heyTimer:float = 0
@@ -20,10 +25,7 @@ var cameraPosition:Vector2 = Vector2()
 var positionData:Vector2 = Vector2()
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	if !Assets.exists(Paths.json(curCharacter, "characters")):
-		curCharacter = "bf"
-		
+func reloadCharacter():
 	var json = JSON.parse_string(Assets.getText(Paths.json(curCharacter, "characters")))
 	
 	self.scale = Vector2(json.scale, json.scale)

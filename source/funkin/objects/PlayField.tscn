@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bilqpj2w17qv7"]
-
-[ext_resource type="Script" uid="uid://cttfajruhcqg8" path="res://source/funkin/objects/PlayField.gd" id="1_lyisu"]
-
-[node name="PlayField" type="Node2D"]
-script = ExtResource("1_lyisu")

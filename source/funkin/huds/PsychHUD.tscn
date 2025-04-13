@@ -7,7 +7,7 @@
 
 [sub_resource type="GDScript" id="GDScript_646u2"]
 resource_name = "PsychHUD"
-script/source = "extends CanvasLayer
+script/source = "extends Node2D
 
 @onready var parent = get_node(\"/root/Main/game/PlayState\")
 
@@ -55,7 +55,7 @@ func sectionHit():
 	pass
 "
 
-[node name="PsychHUD" type="CanvasLayer"]
+[node name="PsychHUD" type="Node2D"]
 script = SubResource("GDScript_646u2")
 
 [node name="healthBar" type="TextureProgressBar" parent="."]

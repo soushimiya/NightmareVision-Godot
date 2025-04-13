@@ -78,9 +78,11 @@ func stepHit():
 		
 func beatHit():
 	pass
-	
+
 func sectionHit():
-	pass
+	if (PlayState.SONG.notes[curSection] != null):
+		if (PlayState.SONG.notes[curSection].has("changeBPM") && PlayState.SONG.notes[curSection].changeBPM):
+			Conductor.bpm = PlayState.SONG.notes[curSection].bpm
 
 func switchState(state):
 	get_node("/root/Main/game").add_child(state.instantiate())

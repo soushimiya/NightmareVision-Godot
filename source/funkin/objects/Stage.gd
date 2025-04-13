@@ -8,7 +8,8 @@ var stageData = {}
 func init() -> void:
 	stageData = JSON.parse_string(Assets.getText(Paths.json(stageName, "stages")))
 	
-	var luaScript = load("res://source/funkin/data/scripts/FunkinLua.tscn").instantiate()
-	add_child(luaScript)
-	luaScript.lua.globals["foreground"] = get_node("../foreground")
-	luaScript.load(Paths.lua("stages/" + stageName), self)
+	if Assets.exists(Paths.lua("stages/" + stageName)):
+		var luaScript = load("res://source/funkin/data/scripts/FunkinLua.tscn").instantiate()
+		add_child(luaScript)
+		luaScript.lua.globals["foreground"] = get_node("../foreground")
+		luaScript.load(Paths.lua("stages/" + stageName), self)
