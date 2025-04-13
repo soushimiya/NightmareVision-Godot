@@ -9,15 +9,15 @@ static func bound(value:float, min:float, max:float) -> float:
 	return value
 
 static func formatTime(seconds:float, showMS:bool = false) -> String:
-	var timeString:String = str(int(seconds / 60)) + ":";
-	var timeStringHelper:int = int(seconds) % 60;
+	var timeString:String = str(int(seconds / 60)) + ":"
+	var timeStringHelper:int = int(seconds) % 60
 	if timeStringHelper < 10:
 		timeString += "0"
 	timeString += str(timeStringHelper)
 	if (showMS):
-		timeString += ".";
-		timeStringHelper = int((seconds - int(seconds)) * 100);
+		timeString += "."
+		timeStringHelper = int((seconds - int(seconds)) * 100)
 		if (timeStringHelper < 10):
-			timeString += "0";
-		timeString += str(timeStringHelper);
+			timeString += "0"
+		timeString += str(timeStringHelper)
 	return timeString

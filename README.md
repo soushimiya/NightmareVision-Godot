@@ -4,8 +4,11 @@ A rewrite of NightmareVision with completely different Lua support than Psych, a
 ## ToDo
 ### High Priority
 - [ ] Gameplay
+    - [ ] Implement PlayField (currently just using Psych 0.5 method)
 - [ ] Scripting
+    - [ ] make able to call custom functions
 - [ ] Rework Asset System
+    - [ ] implement Mod/Content system
 ### Mid Priority
 - [ ] Menus
 - [ ] Modchart

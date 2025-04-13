@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dk4cf75g3bkq3"]
+[gd_scene load_steps=7 format=3 uid="uid://dk4cf75g3bkq3"]
 
 [ext_resource type="Script" uid="uid://d1uqa8oytdud0" path="res://source/funkin/states/PlayState.gd" id="1_nfklt"]
+[ext_resource type="PackedScene" uid="uid://bilqpj2w17qv7" path="res://source/funkin/objects/PlayField.tscn" id="2_6ps67"]
 [ext_resource type="Script" uid="uid://cowsomex0m85s" path="res://source/funkin/objects/Stage.gd" id="2_pu5lr"]
 [ext_resource type="PackedScene" uid="uid://ueifft8ho4lk" path="res://source/funkin/objects/Character.tscn" id="3_40clv"]
 [ext_resource type="PackedScene" uid="uid://ye2ssjowmg54" path="res://source/funkin/huds/PsychHUD.tscn" id="3_68ab2"]
@@ -8,6 +9,10 @@
 
 [node name="PlayState" type="Node2D"]
 script = ExtResource("1_nfklt")
+
+[node name="playFields" type="Node2D" parent="."]
+
+[node name="playerStrums" parent="playFields" instance=ExtResource("2_6ps67")]
 
 [node name="camGame" type="Camera2D" parent="."]
 

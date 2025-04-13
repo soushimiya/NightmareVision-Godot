@@ -15,9 +15,9 @@ var singDuration:float = 4 # Multiplier of how long a character holds the sing p
 var danceIdle:bool = false # Character use "danceLeft" and "danceRight" instead of "idle"
 
 var healthIcon:String = 'face'
-var healthColor:Color = Color();
-var cameraPosition:Vector2 = Vector2();
-var positionData:Vector2 = Vector2();
+var healthColor:Color = Color()
+var cameraPosition:Vector2 = Vector2()
+var positionData:Vector2 = Vector2()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -37,7 +37,7 @@ func _ready() -> void:
 
 	self.healthColor = Color8(json.healthbar_colors[0], json.healthbar_colors[1], json.healthbar_colors[2])
 	if isPlayer:
-		self.flip_h = !self.flip_h;
+		self.flip_h = !self.flip_h
 	for anim in json.animations:
 		self.animations.set(anim.anim, anim)
 	

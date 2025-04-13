@@ -1,14 +1,14 @@
 extends Node2D
 class_name MusicBeatState
 
-var curSection:int = 0;
-var stepsToDo:int = 0;
+var curSection:int = 0
+var stepsToDo:int = 0
 
-var curStep:int = 0;
-var curBeat:int = 0;
+var curStep:int = 0
+var curBeat:int = 0
 
-var curDecStep:float = 0;
-var curDecBeat:float = 0;
+var curDecStep:float = 0
+var curDecBeat:float = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -47,13 +47,13 @@ func rollbackSection():
 	stepsToDo = 0
 	for i in range(PlayState.SONG.notes.length - 1):
 		if (PlayState.SONG.notes[i] != null):
-			stepsToDo += round(getBeatsOnSection() * 4);
-			if (stepsToDo > curStep): break;
+			stepsToDo += round(getBeatsOnSection() * 4)
+			if (stepsToDo > curStep): break
 
-			curSection+= 1;
+			curSection+= 1
 
 		if (curSection > lastSection):
-			sectionHit();
+			sectionHit()
 		
 func updateCurStep():
 	var lastChange = Conductor.getBPMFromSeconds(Conductor.songPosition)
@@ -67,7 +67,7 @@ func updateBeat():
 	curDecBeat = curDecStep / 4
 	
 func getBeatsOnSection():
-	var val = 4;
+	var val = 4
 	if (PlayState.SONG != null && PlayState.SONG.notes[curSection] != null && PlayState.SONG.notes[curSection].has("sectionBeats")):
 		val = PlayState.SONG.notes[curSection].sectionBeats
 	return val

@@ -3,9 +3,9 @@ class_name PlayState
 
 static var SONG = null
 
-var boyfriendCameraOffset = Vector2();
-var opponentCameraOffset = Vector2();
-var girlfriendCameraOffset = Vector2();
+var boyfriendCameraOffset = Vector2()
+var opponentCameraOffset = Vector2()
+var girlfriendCameraOffset = Vector2()
 
 var curStage:String = 'stage'
 
@@ -161,7 +161,7 @@ func _process(delta: float) -> void:
 	
 	$camGame.global_position = $camFollowPos.global_position
 	if camZooming:
-		$camGame.zoom.x = lerp(defaultCamZoom + defaultCamZoomAdd, $camGame.zoom.x, exp(-delta * 6.25 * camZoomingDecay));
+		$camGame.zoom.x = lerp(defaultCamZoom + defaultCamZoomAdd, $camGame.zoom.x, exp(-delta * 6.25 * camZoomingDecay))
 	$camGame.zoom.y = $camGame.zoom.x
 	
 	if !inCutscene:

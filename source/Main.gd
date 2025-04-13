@@ -1,8 +1,8 @@
 extends Node2D
 
 # Called when the node enters the scene tree for the first time.
-# static var initalState = preload("res://source/Splash.tscn")
-static var initalState = preload("res://source/funkin/states/PlayState.tscn")
+static var initalState = preload("res://source/Splash.tscn")
+#static var initalState = preload("res://source/funkin/states/PlayState.tscn")
 func _ready() -> void:
 	var window := get_window()
 	# fix of fucking macOS DPI

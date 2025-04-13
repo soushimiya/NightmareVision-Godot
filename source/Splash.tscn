@@ -6,9 +6,10 @@
 resource_name = "Splash"
 script/source = "extends MusicBeatState
 
-
+var graphics = [\"Crunchin\", \"Hit Single\", \"Sonic Legacy\"]
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$logo.texture = Assets.getBitmap(\"art/branding/\" + graphics.pick_random() + \".png\")
 	var timer = Timer.new()
 	timer.one_shot = true
 	timer.timeout.connect(startSpriteEvents)
