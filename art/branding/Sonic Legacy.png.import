@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxadrby1uehil"
-path="res://.godot/imported/Sonic Legacy.png-a84c953aba353b765f477d57d5b22b77.ctex"
+uid="uid://dcl3x3wr506fh"
+path="res://.godot/imported/Sonic Legacy.png-1f5e069c59fdd35295c79db3e403fbdd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/shared/images/branding/Sonic Legacy.png"
-dest_files=["res://.godot/imported/Sonic Legacy.png-a84c953aba353b765f477d57d5b22b77.ctex"]
+source_file="res://art/branding/Sonic Legacy.png"
+dest_files=["res://.godot/imported/Sonic Legacy.png-1f5e069c59fdd35295c79db3e403fbdd.ctex"]
 
 [params]
 

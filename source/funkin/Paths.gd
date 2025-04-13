@@ -7,7 +7,11 @@ static func getPath(path:String, library:String = currentLibrary) -> String:
 		prefix = OS.get_executable_path() + "/" + prefix
 	else:
 		prefix = "res://" + prefix
-	return prefix + currentLibrary + "/" + path
+	# lol
+	if Assets.exists(prefix + currentLibrary + "/" + path):
+		return prefix + currentLibrary + "/" + path
+	
+	return prefix + path
 
 static var currentTrackedAssets = {}
 static func image(path:String, folder:String = "images"):
@@ -46,3 +50,15 @@ static func music(path:String, folder:String = "music") -> String:
 	
 static func font(path:String, folder:String = "music") -> String:
 	return getPath(folder + "/" + path + ".ogg")
+
+static func formatToSongPath(path:String) -> String:
+	return path.to_lower().replace(' ', '-')
+
+static func inst(song:String) -> String:
+	return getPath("songs/" + formatToSongPath(song) + "/Inst.ogg")
+
+static func voices(song:String, postfix:String = "") -> String:
+	var voicePath = "Voices"
+	if postfix != "":
+		voicePath += "-" + postfix
+	return getPath("songs/" + formatToSongPath(song) + "/" + voicePath + ".ogg")

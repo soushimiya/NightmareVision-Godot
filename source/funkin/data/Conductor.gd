@@ -27,3 +27,31 @@ func getBPMFromSeconds(time:float):
 		if time >= bpmChangeMap[i].songTime:
 			lastChange = bpmChangeMap[i];
 	return lastChange
+	
+func mapBPMChanges(song):
+	bpmChangeMap = []
+	
+	var curBPM:float = song.bpm
+	var totalSteps:int = 0
+	var totalPos:int = 0
+	for i in range(song.notes.size() - 1):
+		if song.notes[i].has("changeBPM") && song.notes[i].changeBPM && song.notes[i].bpm != curBPM:
+			curBPM = song.notes[i].bpm
+			var event= {
+				"stepTime": totalSteps,
+				"songTime": totalPos,
+				"bpm": curBPM,
+				"stepCrotchet": (60 / curBPM) * 1000
+			}
+			bpmChangeMap.append(event)
+		
+		var deltaSteps = round(getSectionBeats(song, i) * 4)
+		totalSteps += deltaSteps
+		totalPos += ((60 / curBPM) * 1000 / 4) * deltaSteps
+		
+	print("new BPM map BUDDY " + str(bpmChangeMap))
+
+func getSectionBeats(song, section:int):
+	if (song.notes[section].has("sectionBeats")):
+		return song.notes[section].sectionBeats
+	return 4

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgsq5bgbj2qh6"
-path="res://.godot/imported/Crunchin.png-b368c67ce3caed8cc020b3771cc4b8ef.ctex"
+uid="uid://clsyy5xfbst2m"
+path="res://.godot/imported/Crunchin.png-6fd4b5e2321f65349c81d01297c718f1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/shared/images/branding/Crunchin.png"
-dest_files=["res://.godot/imported/Crunchin.png-b368c67ce3caed8cc020b3771cc4b8ef.ctex"]
+source_file="res://art/branding/Crunchin.png"
+dest_files=["res://.godot/imported/Crunchin.png-6fd4b5e2321f65349c81d01297c718f1.ctex"]
 
 [params]
 

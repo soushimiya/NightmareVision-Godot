@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hxhl0b7spgfx"
-path="res://.godot/imported/Hit Single.png-18bd958c32a69e2fd2c9a8221f9b7851.ctex"
+uid="uid://cvimtwyrsdeee"
+path="res://.godot/imported/Hit Single.png-355b59608effce2f3fd1cc483f58c09e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/shared/images/branding/Hit Single.png"
-dest_files=["res://.godot/imported/Hit Single.png-18bd958c32a69e2fd2c9a8221f9b7851.ctex"]
+source_file="res://art/branding/Hit Single.png"
+dest_files=["res://.godot/imported/Hit Single.png-355b59608effce2f3fd1cc483f58c09e.ctex"]
 
 [params]
 

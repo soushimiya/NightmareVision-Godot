@@ -13,7 +13,7 @@ config_version=5
 config/name="NightmareVision"
 config/version="0.0.1"
 run/main_scene="res://source/Main.tscn"
-config/features=PackedStringArray("4.3", "Mobile")
+config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://art/iconOG.png"
 
 [autoload]
@@ -23,6 +23,7 @@ Assets="*res://source/Assets.gd"
 ClientPrefs="*res://source/funkin/data/ClientPrefs.gd"
 Song="*res://source/funkin/data/Song.gd"
 Conductor="*res://source/funkin/data/Conductor.gd"
+CoolUtil="*res://source/funkin/utils/CoolUtil.gd"
 
 [display]
 

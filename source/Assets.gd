@@ -1,12 +1,10 @@
 extends Node
 
 # Custom Asset Getter for Modding
-static func getBitmap(path:String) -> Texture:
-	var texture:Texture
+static func getBitmap(path:String) -> ImageTexture:
 	var image = Image.new()
 	image.load(path)
-	texture = ImageTexture.create_from_image(image)
-	return texture
+	return ImageTexture.create_from_image(image)
 
 static func getSound(path:String) -> AudioStreamOggVorbis:
 	return AudioStreamOggVorbis.load_from_file(path)

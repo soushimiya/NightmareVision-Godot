@@ -10,23 +10,28 @@ resource_name = "PsychHUD"
 script/source = "extends CanvasLayer
 
 @onready var parent = get_node(\"/root/Main/game/PlayState\")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$iconP1.texture = Paths.image(\"icons/icon-\" + parent.get_node(\"boyfriend\").healthIcon)
 	$iconP2.texture = Paths.image(\"icons/icon-\" + parent.get_node(\"dad\").healthIcon)
-	
-	return
 	# broken some reason!
-	var dadColor = parent.get_node(\"dad\").healthColorArray
-	$healthBar.tint_under = Color(dadColor[0], dadColor[1], dadColor[2])
-	var bfColor = parent.get_node(\"boyfriend\").healthColorArray
-	$healthBar.tint_progress = Color(bfColor[0], bfColor[1], bfColor[2])
+	$healthBar.tint_under = parent.get_node(\"dad\").healthColor
+	$healthBar.tint_progress = parent.get_node(\"boyfriend\").healthColor
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:
 	$iconP1.position.x = $healthBar.position.x/2 + (580 * remap($healthBar.value, 0, 100, 100, 0) * 0.01 + 210)
 	$iconP2.position.x = $healthBar.position.x/2 + (580 * remap($healthBar.value, 0, 100, 100, 0) * 0.01 + 150)
+	
+	var multP1:float = lerpf(1, $iconP1.scale.x, exp(-delta * 9))
+	$iconP1.scale = Vector2(multP1, multP1)
+	var multP2:float = lerpf(1, $iconP2.scale.x, exp(-delta * 9))
+	$iconP2.scale = Vector2(multP2, multP2)
+	
+	$timeTxt.text = CoolUtil.formatTime(parent.songPercent)
+	$timeBar.value = parent.songPercent
 
 func onHealthChange(health:float) -> void:
 	$healthBar.value = health/2*100
@@ -38,6 +43,16 @@ func onHealthChange(health:float) -> void:
 		$iconP2.frame = 1
 	else:
 		$iconP2.frame = 0
+
+func stepHit():
+	pass
+	
+func beatHit():
+	$iconP1.scale = Vector2(1.2, 1.2)
+	$iconP2.scale = Vector2(1.2, 1.2)
+	
+func sectionHit():
+	pass
 "
 
 [node name="PsychHUD" type="CanvasLayer"]
@@ -74,7 +89,7 @@ offset_bottom = 703.0
 theme_override_constants/outline_size = 5
 theme_override_fonts/font = ExtResource("1_rheqv")
 theme_override_font_sizes/font_size = 20
-text = "Score: 999999 | Misses: 0 | Rating: You Suck! (20%) - FC"
+text = "Score: 999999 | Misses: 0 | Rating: N/A"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -83,19 +98,19 @@ offset_left = 440.0
 offset_top = 24.0
 offset_right = 840.0
 offset_bottom = 43.0
-value = 60.0
+step = 0.01
 texture_under = ExtResource("3_meako")
 texture_progress = ExtResource("3_meako")
 tint_under = Color(0, 0, 0, 1)
 
 [node name="timeTxt" type="Label" parent="."]
-offset_left = 600.0
-offset_top = 16.0
-offset_right = 680.0
-offset_bottom = 48.0
+offset_left = 440.0
+offset_top = 18.0
+offset_right = 840.0
+offset_bottom = 47.0
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("1_rheqv")
 theme_override_font_sizes/font_size = 32
-text = "2:30"
+text = "2:00"
 horizontal_alignment = 1
 vertical_alignment = 1
