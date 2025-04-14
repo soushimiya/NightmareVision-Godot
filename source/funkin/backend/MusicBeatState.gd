@@ -45,7 +45,7 @@ func rollbackSection():
 	var lastSection:int = curSection
 	curSection = 0
 	stepsToDo = 0
-	for i in range(PlayState.SONG.notes.length - 1):
+	for i in range(PlayState.SONG.notes.size()):
 		if (PlayState.SONG.notes[i] != null):
 			stepsToDo += round(getBeatsOnSection() * 4)
 			if (stepsToDo > curStep): break
@@ -86,4 +86,5 @@ func sectionHit():
 
 func switchState(state):
 	get_node("/root/Main/game").add_child(state.instantiate())
+	get_node("/root/Main/game").remove_child(self)
 	self.queue_free()

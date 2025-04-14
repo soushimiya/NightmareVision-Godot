@@ -13,15 +13,19 @@ script/source = "extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta:float) -> void:
+	# WOAHHHH!!!
 	$iconP1.texture = Paths.image(\"icons/icon-\" + parent.get_node(\"boyfriend\").healthIcon)
 	$iconP2.texture = Paths.image(\"icons/icon-\" + parent.get_node(\"dad\").healthIcon)
 	# broken some reason!
 	$healthBar.tint_under = parent.get_node(\"dad\").healthColor
 	$healthBar.tint_progress = parent.get_node(\"boyfriend\").healthColor
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta:float) -> void:
+	
+	
 	$iconP1.position.x = $healthBar.position.x/2 + (580 * remap($healthBar.value, 0, 100, 100, 0) * 0.01 + 210)
 	$iconP2.position.x = $healthBar.position.x/2 + (580 * remap($healthBar.value, 0, 100, 100, 0) * 0.01 + 150)
 	

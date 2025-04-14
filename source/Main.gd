@@ -12,7 +12,7 @@ func _ready() -> void:
 	window.move_to_center()
 	
 	# Move them into FreeplayState after i implement them
-	PlayState.SONG = Song.loadFromJson("let-there-be-light", "let-there-be-light")
+	PlayState.SONG = Song.loadFromJson("bopeebo-hard", "bopeebo")
 	$game.add_child(initalState.instantiate())
 	
 func _process(delta: float) -> void:

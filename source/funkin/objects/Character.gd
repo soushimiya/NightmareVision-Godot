@@ -46,7 +46,6 @@ func reloadCharacter():
 	sprite_frames = load("res://assets/shared/images/"+ json.image +".xml")
 	playAnim(idleAnims[0])
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func playAnim(name:String, force:bool = false, reversed:bool = false, frame:int = 0) -> void:
 	if !animations.has(name):
 		name = "idle"
@@ -58,8 +57,7 @@ func playAnim(name:String, force:bool = false, reversed:bool = false, frame:int 
 	if frame > 0:
 		set_frame_and_progress(frame, 0)
 	# offsets sucks and i hate em
-	offset = Vector2(-animations.get(name).offsets[0]*-1, animations.get(name).offsets[1]*-1)
-	#trim_suffix
+	offset = Vector2(animations.get(name).offsets[0]*-1, animations.get(name).offsets[1]*-1)
 
 func getTexture():
 	return sprite_frames.get_frame_texture(animations.get(idleAnims[0]).name.trim_suffix("0"), 0)
