@@ -1,5 +1,24 @@
 extends Node
 
+const ignoreModFolders:Array = [
+	'characters',
+	'custom_events',
+	'custom_notetypes',
+	'data',
+	'songs',
+	'music',
+	'sounds',
+	'shaders',
+	'noteskins',
+	'videos',
+	'images',
+	'stages',
+	'weeks',
+	'fonts',
+	'scripts',
+	'achievements'
+]
+
 static var currentLibrary = "shared"
 static func getPath(path:String, library:String = currentLibrary) -> String:
 	var prefix = "assets/";
@@ -8,6 +27,8 @@ static func getPath(path:String, library:String = currentLibrary) -> String:
 	else:
 		prefix = "res://" + prefix
 	# lol
+	if Assets.exists(modFolders(path)):
+		return modFolders(path)
 	if Assets.exists(prefix + currentLibrary + "/" + path):
 		return prefix + currentLibrary + "/" + path
 	
@@ -62,3 +83,28 @@ static func voices(song:String, postfix:String = "") -> String:
 	if postfix != "":
 		voicePath += "-" + postfix
 	return getPath("songs/" + formatToSongPath(song) + "/" + voicePath + ".ogg")
+	
+static var currentModDirectory:String = ""
+
+static func mods(path) -> String:
+	return "content/" + path
+
+static func modFolders(key) -> String:
+	if (!currentModDirectory.is_empty()):
+		var fileToCheck:String = mods(currentModDirectory + '/' + key)
+		if (FileAccess.file_exists(fileToCheck)):
+			return fileToCheck
+
+	for mod in getModDirectories():
+		var fileToCheck:String = mods(mod + '/' + key)
+		if (FileAccess.file_exists(fileToCheck)):
+			return fileToCheck
+		
+	return mods(key)
+
+static func getModDirectories() -> Array:
+	var list = []
+	for folder in DirAccess.get_directories_at("content/"):
+		if !ignoreModFolders.has(folder):
+			list.push_back(folder)
+	return DirAccess.get_directories_at("content/")
