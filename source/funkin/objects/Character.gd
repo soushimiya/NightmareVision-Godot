@@ -29,7 +29,7 @@ func reloadCharacter():
 	var json = JSON.parse_string(Assets.getText(Paths.json(curCharacter, "characters")))
 	
 	self.scale = Vector2(json.scale, json.scale)
-	self.position = Vector2(json.position[0], json.position[1])
+	self.position += Vector2(json.position[0], json.position[1])
 	self.cameraPosition = Vector2(json.camera_position[0], json.camera_position[1])
 	self.healthIcon = json.healthicon
 	self.singDuration = json.sing_duration

@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dk4cf75g3bkq3"]
+[gd_scene load_steps=7 format=3 uid="uid://dk4cf75g3bkq3"]
 
 [ext_resource type="Script" uid="uid://d1uqa8oytdud0" path="res://source/funkin/states/PlayState.gd" id="1_nfklt"]
 [ext_resource type="Script" uid="uid://cowsomex0m85s" path="res://source/funkin/objects/Stage.gd" id="2_pu5lr"]
 [ext_resource type="PackedScene" uid="uid://ueifft8ho4lk" path="res://source/funkin/objects/Character.tscn" id="3_40clv"]
 [ext_resource type="PackedScene" uid="uid://ye2ssjowmg54" path="res://source/funkin/huds/PsychHUD.tscn" id="3_68ab2"]
+[ext_resource type="Script" uid="uid://dr53s6y8e52se" path="res://source/funkin/objects/PlayField.gd" id="5_6ps67"]
 [ext_resource type="AudioStream" uid="uid://d20xrpy1novtm" path="res://assets/shared/music/breakfast.ogg" id="5_aviqu"]
 
 [node name="PlayState" type="Node2D"]
@@ -30,6 +31,21 @@ follow_viewport_enabled = true
 [node name="hud" type="CanvasLayer" parent="."]
 
 [node name="playHUD" parent="hud" instance=ExtResource("3_68ab2")]
+
+[node name="playFields" type="Node2D" parent="hud"]
+position = Vector2(1024, 104)
+
+[node name="playerStrums" type="Node2D" parent="hud/playFields"]
+position = Vector2(-672, 0)
+script = ExtResource("5_6ps67")
+metadata/_custom_type_script = "uid://dr53s6y8e52se"
+
+[node name="opponentStrums" type="Node2D" parent="hud/playFields"]
+script = ExtResource("5_6ps67")
+metadata/_custom_type_script = "uid://dr53s6y8e52se"
+
+[node name="notes" type="Node2D" parent="hud"]
+position = Vector2(1024, 104)
 
 [node name="inst" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_aviqu")

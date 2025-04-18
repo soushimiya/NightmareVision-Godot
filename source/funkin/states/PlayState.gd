@@ -3,16 +3,30 @@ class_name PlayState
 
 static var SONG = null
 
+const STRUM_X:float = 42
+const STRUM_X_MIDDLESCROLL:float = -278
+
 var boyfriendCameraOffset = Vector2()
 var opponentCameraOffset = Vector2()
 var girlfriendCameraOffset = Vector2()
 
+var songSpeed:float = 1:
+	set(value):
+		songSpeed = value
+		var ratio:float = value / songSpeed; # funny word huh
+		for note in $hud/notes.get_children():
+			note.resizeByRatio(ratio)
+		for note in unspawnNotes:
+			note.resizeByRatio(ratio)
+
 var curStage:String = 'stage'
 
-var isStoryMode:bool = false
-var storyWeek:int = 0
-var storyPlaylist:Array = []
-var storyDifficulty:int = 1
+static var isStoryMode:bool = false
+static var storyWeek:int = 0
+static var storyPlaylist:Array = []
+static var storyDifficulty:int = 1
+
+var unspawnNotes:Array = []
 
 var camFollow:Vector2 = Vector2()
 var camFollowTarget
@@ -20,7 +34,7 @@ var camFollowTarget
 var prevCamFollow:Vector2
 var prevCamFollowPos:Node2D
 
-var camZooming:bool = false
+var camZooming:bool = true
 var camZoomingMult:float = 1
 var camZoomingDecay:float = 1
 
@@ -92,9 +106,10 @@ func setStageData(stageData):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	super()
 	if (SONG == null):
 		SONG = Song.loadFromJson('test', 'tutorial')
+		
+	songSpeed = SONG.speed
 	
 	Conductor.mapBPMChanges(SONG)
 	Conductor.bpm = SONG.bpm
@@ -118,11 +133,64 @@ func _ready() -> void:
 
 	for voice in $voices.get_children():
 		voice.play()
+		
+	for section in SONG.notes:
+		for songNotes in section.sectionNotes:
+			var daStrumTime:float = songNotes[0]
+			var daNoteData:int = int(songNotes[1]) % int(SONG.keys)
+			var gottaHitNote:bool = section.mustHitSection
+			if songNotes[1] > (SONG.keys - 1):
+				gottaHitNote = !gottaHitNote
+			
+			var daPlayer = 0
+			if gottaHitNote:
+				daPlayer = 1
+				
+			var oldNote:Note = null
+			var swagNote = Note.new(daStrumTime, daNoteData, oldNote, false, daPlayer)
+			swagNote.mustPress = gottaHitNote
+			swagNote.sustainLength = songNotes[2]
+			#swagNote.gfNote = (section.has("gfSection") && section.gfSection && (songNotes[1] < SONG.keys))
+			#swagNote.noteType = songNotes[3]
+			unspawnNotes.push_back(swagNote)
+			
+			var susLength:float = swagNote.sustainLength
+			susLength = susLength / Conductor.stepCrotchet
+			
+			var floorSus:int = round(susLength)
+			if (floorSus > 0):
+				for susNote in range(floorSus + 1):
+					oldNote = unspawnNotes[int(unspawnNotes.size() - 1)]
+					var sustainNote = Note.new(daStrumTime
+							+ (Conductor.stepCrotchet * susNote)
+							+ (Conductor.stepCrotchet / songSpeed), daNoteData,
+							oldNote, true, daPlayer)
 
-	songLength = $inst.stream.get_length()*10
+					sustainNote.mustPress = swagNote.mustPress
+					var dataToCheck:int = songNotes[1];
+					if (SONG.lanes > 1):
+						if (gottaHitNote): swagNote.lane = 0
+						if (!gottaHitNote): swagNote.lane = 1
+
+						if (dataToCheck > int((SONG.keys * 2) - 1)): swagNote.lane = int(max(floor(dataToCheck / SONG.keys), -1))
+					else:
+						swagNote.lane = 0
+					#sustainNote.gfNote = swagNote.gfNote
+					#sustainNote.noteType = songNotes[3]
+					sustainNote.lane = swagNote.lane
+					swagNote.tail.push_back(sustainNote)
+					unspawnNotes.push_back(swagNote)
+					
+			if (swagNote.mustPress):
+				swagNote.position.x += 1280 / 2 # general offset
+			else: if (ClientPrefs.middleScroll):
+					swagNote.position.x += 310;
+					if (daNoteData > 1): # Up and Right
+						swagNote.position.x += 1280 / 2 + 25
+	unspawnNotes.sort_custom(func(a:Note, b:Note): return a.strumTime < b.strumTime)
 	
-	$boyfriend.curCharacter = SONG.player1
-	$dad.curCharacter = SONG.player2
+	songLength = $inst.stream.get_length()*10
+	generatedMusic = true
 	
 	if (!SONG.has("stage")):
 		SONG.stage = 'stage'
@@ -132,6 +200,9 @@ func _ready() -> void:
 	$stage.stageName = curStage
 	$stage.init()
 	setStageData($stage.stageData)
+	
+	$boyfriend.curCharacter = SONG.player1
+	$dad.curCharacter = SONG.player2
 
 func getCharacterCameraPos(char):
 	var desiredPos = Vector2(char.getTexture().get_width()/2, char.getTexture().get_height()/2)
@@ -182,7 +253,45 @@ func _process(delta: float) -> void:
 	if !inCutscene:
 		var lerpVal = CoolUtil.bound(delta * 2.4 * cameraSpeed, 0, 1)
 		$camFollowPos.position = Vector2(lerp($camFollowPos.position.x, camFollow.x, lerpVal), lerp($camFollowPos.position.y, camFollow.y, lerpVal))
-
+	
+	if unspawnNotes[0] != null:
+		var time:float = 3000 # shit be werid on 4:3
+		if (songSpeed < 1):
+			time /= songSpeed
+			
+		for note in unspawnNotes:
+			if (note.strumTime - Conductor.songPosition < time && !note.spawned):
+				unspawnNotes.erase(note)
+				var desiredPlayfield = $hud/playFields.get_children()[note.lane]
+				if (desiredPlayfield != null): $hud/playFields.get_children()[note.lane].addNote(note)
+				$hud/notes.add_child(note)
+				note.spawned = true
+				
+	if generatedMusic:
+		var fakeCrochet:float = (60 / SONG.bpm) * 1000
+		
+		for daNote in $hud/notes.get_children():
+			if (daNote.lane > (SONG.lanes - 1)): continue
+			var field = daNote.playField
+			
+			var strumX:float = field.get_children()[daNote.noteData].global_position.x
+			var strumY:float = field.get_children()[daNote.noteData].global_position.y
+			#var strumAngle:float = field.get_children()[daNote.noteData].angle
+			var strumDirection:float = field.get_children()[daNote.noteData].direction
+			#var strumAlpha:float = field.get_children()[daNote.noteData].alpha
+			var strumScroll:float = field.get_children()[daNote.noteData].downScroll
+			
+			strumX += daNote.offsetX * (daNote.scale.x / daNote.baseScaleX);
+			strumY += daNote.offsetY
+			
+			if (strumScroll): #Downscroll
+				daNote.distance = (0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed)
+			else: #Upscroll
+				daNote.distance = (-0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed)
+				
+			daNote.global_position.x = strumX + cos(strumDirection * PI / 180) * daNote.distance;
+			daNote.global_position.y = strumY + sin(strumDirection * PI / 180) * daNote.distance
+			
 func stepHit():
 	super()
 	playHUD.stepHit()

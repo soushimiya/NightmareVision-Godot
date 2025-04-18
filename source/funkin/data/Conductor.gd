@@ -13,7 +13,9 @@ var songPosition:float = 0
 var lastSongPos:float = 0
 var offset:float = 0
 
-var safeZoneOffset:float = (ClientPrefs.safeFrames / 60) * 1000; # is calculated in create(), is safeFrames in milliseconds
+var safeZoneOffset:float:
+	get():
+		return (ClientPrefs.safeFrames / 60) * 1000; # is safeFrames in milliseconds
 var bpmChangeMap:Array = [];
 
 func getBPMFromSeconds(time:float):

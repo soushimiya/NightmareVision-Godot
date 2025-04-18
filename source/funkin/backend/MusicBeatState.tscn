@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://brqfyyq68kaw4"]
-
-[sub_resource type="Resource" id="Resource_yascw"]
-metadata/__load_path__ = "res://source/backend/MusicBeatState.gd"
-
-[node name="MusicBeatState" type="Node2D"]
-script = SubResource("Resource_yascw")

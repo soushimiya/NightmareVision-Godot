@@ -5,6 +5,7 @@ static var handler:NoteSkinHelper
 var noteData:int = 0
 var parent
 var downScroll:bool = false
+var direction:float = 90
 
 var curAnim:String = ""
 var animations:Dictionary = {}
