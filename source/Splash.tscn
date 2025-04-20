@@ -37,7 +37,6 @@ func _on_timer_3_timeout() -> void:
 		doFinalTween()
 	)
 	tween.tween_property($logo, \"scale\", Vector2(1, 1), 0.25)
-	tween.play()
 	
 func doFinalTween():
 	var tween = get_tree().create_tween()
@@ -49,10 +48,9 @@ func doFinalTween():
 	)
 	tween.tween_property($logo, \"self_modulate\", Color(0, 0, 0, 0), 1)
 	tween.tween_property($logo, \"scale\", Vector2(0.2, 0.2), 1)
-	tween.play()
 
 func finish():
-	switchState(preload(\"res://source/funkin/states/PlayState.tscn\"))
+	switchState(preload(\"res://source/funkin/states/MainMenuState/MainMenuState.tscn\"))
 "
 
 [node name="Splash" type="Node2D"]

@@ -15,5 +15,24 @@ func _ready() -> void:
 	PlayState.SONG = Song.loadFromJson("silly-billy", "silly-billy")
 	$game.add_child(initalState.instantiate())
 	
+# change this when i make custom transition stuff
+@export var fuckingFill:float = -60.0
 func _process(delta: float) -> void:
 	$fpsVar/text.text = "FPS: " + str(Engine.get_frames_per_second()) + " • Memory: " + str(OS.get_static_memory_usage() / (1024 * 1024)) + "MB"
+	
+	$transition/rect.texture.fill_from.y = fuckingFill
+	
+func playSound(path):
+	$sound.stream = Assets.getSound(path)
+	$sound.play()
+func _on_sound_finished() -> void:
+	$sound.stream = null
+	$sound.volume_db = 0
+
+func playMusic(path):
+	$music.stream = Assets.getSound(path)
+	$music.play()
+# loop stuff
+func _on_music_finished() -> void:
+	if $music.stream != null:
+		$music.play()

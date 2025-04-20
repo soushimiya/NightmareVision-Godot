@@ -43,7 +43,7 @@ func reloadCharacter():
 	for anim in json.animations:
 		self.animations.set(anim.anim, anim)
 	
-	sprite_frames = load("res://assets/shared/images/"+ json.image +".xml")
+	sprite_frames = load(Paths.xml(json.image, "images"))
 	playAnim(idleAnims[0])
 
 func playAnim(name:String, force:bool = false, reversed:bool = false, frame:int = 0) -> void:

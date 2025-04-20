@@ -1,0 +1,133 @@
+[gd_scene load_steps=5 format=3 uid="uid://d313wb7i3u18p"]
+
+[ext_resource type="Texture2D" uid="uid://d3wlr2sxfdqyd" path="res://assets/shared/images/menuBGMagenta.png" id="2_0v0d6"]
+[ext_resource type="Texture2D" uid="uid://ugp1nk3txfhk" path="res://assets/shared/images/menuBG.png" id="2_m6xm4"]
+[ext_resource type="FontFile" uid="uid://g53b8ipf3ojy" path="res://assets/fonts/vcr.ttf" id="2_ows53"]
+
+[sub_resource type="GDScript" id="GDScript_s6tfn"]
+resource_name = "MainMenuState"
+script/source = "extends MusicBeatState
+
+static var curSelected:int = 0
+var canSelect:bool = true
+
+func _ready() -> void:
+	if (!$/root/Main/music.playing):
+		$/root/Main.playMusic(Paths.music(\"freakyMenu\"))
+
+	var storyMode = MainMenuButton.new(\"story_mode\", func():switchState(preload(\"res://source/funkin/states/PlayState.tscn\")))
+	addButton(storyMode)
+	
+	var freeplay = MainMenuButton.new(\"freeplay\", func():pass)
+	addButton(freeplay)
+	
+	var credits = MainMenuButton.new(\"credits\", func():pass)
+	addButton(credits)
+	
+	var options = MainMenuButton.new(\"options\", func():pass)
+	addButton(options)
+	
+	changeSelection()
+	
+func _process(delta: float) -> void:
+	if canSelect:
+		if Input.is_action_just_pressed(\"ui_accept\"):
+			hideAndLoad()
+			canSelect = false
+		if Input.is_action_just_pressed(\"ui_up\"):
+			changeSelection(-1)
+		if Input.is_action_just_pressed(\"ui_down\"):
+			changeSelection(1)
+
+func addButton(button:MainMenuButton):
+	button.global_position.x = 1280/2
+	button.global_position.y =  $buttons.get_children().size() * 140;
+	$buttons.add_child(button)
+
+func changeSelection(diff:int = 0):
+	if diff != 0:
+		$/root/Main.playSound(Paths.sound(\"scrollMenu\"))
+	
+	var previous = $buttons.get_child(curSelected)
+	previous.play(previous.key + \" basic\")
+	
+	curSelected = wrap(curSelected + diff, 0, $buttons.get_children().size())
+	var now = $buttons.get_child(curSelected)
+	now.play(now.key + \" white\")
+	$camera.global_position.x = now.global_position.x
+
+func hideAndLoad():
+	$/root/Main.playSound(Paths.sound('confirmMenu'))
+	
+	# my eye destroyed by this
+	#if ClientPrefs.flashing:
+		#flicker($bg/magenta, 1.1, 0.1, false)
+	
+	flicker($buttons.get_child(curSelected), 1, 0.06, false, false, $buttons.get_child(curSelected).callback)
+	var tween = get_tree().create_tween()
+	tween.set_parallel()
+	tween.set_trans(Tween.TRANS_QUAD)
+	tween.set_ease(Tween.EASE_OUT)
+	
+	for item in $buttons.get_children():
+		if item != $buttons.get_child(curSelected):
+			tween.tween_property(item, \"self_modulate\", Color(0, 0, 0, 0), 0.4)
+
+# recreation of FlxFlicker
+func flicker(object:Node2D, duration = 1, interval = 0.04, endVisibility:bool = true, forceRestart:bool = true, callback:Callable = func(): pass):
+	if endVisibility:
+		for i in (duration/interval):
+			object.visible = false
+			await get_tree().create_timer(interval/2).timeout
+			object.visible = true
+			await get_tree().create_timer(interval/2).timeout
+	else:
+		for i in (duration/interval):
+			object.visible = true
+			await get_tree().create_timer(interval/2).timeout
+			object.visible = false
+			await get_tree().create_timer(interval/2).timeout
+			
+	callback.call()
+"
+
+[node name="MainMenuState" type="Node2D"]
+script = SubResource("GDScript_s6tfn")
+metadata/_custom_type_script = "uid://8vbysom7qkcx"
+
+[node name="bg" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0, 0.07)
+
+[node name="bg" type="Sprite2D" parent="bg"]
+position = Vector2(640, 360)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("2_m6xm4")
+
+[node name="magenta" type="Sprite2D" parent="bg"]
+visible = false
+position = Vector2(640, 360)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("2_0v0d6")
+
+[node name="buttons" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0, 0.4)
+
+[node name="watermark" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0, 0)
+
+[node name="watermark" type="Label" parent="watermark"]
+offset_left = 12.0
+offset_top = 679.0
+offset_right = 359.0
+offset_bottom = 712.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_ows53")
+theme_override_font_sizes/font_size = 16
+text = "NightmareVision Godot v0.1 (NMV v0.2)
+Friday Night Funkin' v0.2.7"
+vertical_alignment = 2
+
+[node name="camera" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 3.0

@@ -70,8 +70,6 @@ func _import(source_file: String, save_path: String, options: Dictionary,
 	var sprite_frames: SpriteFrames = SpriteFrames.new()
 	sprite_frames.remove_animation('default')
 	
-	var texture = null
-	var image: Image
 	var image_texture: ImageTexture
 	
 	# This is done to prevent reuse of atlas textures.
@@ -90,19 +88,15 @@ func _import(source_file: String, save_path: String, options: Dictionary,
 			
 			if not FileAccess.file_exists(image_path):
 				return ERR_FILE_NOT_FOUND
-			
-			texture = ResourceLoader.load(image_path, 'CompressedTexture2D', ResourceLoader.CACHE_MODE_IGNORE)
-			
-			image = texture.get_image()
-			image.decompress()
-			image_texture = ImageTexture.create_from_image(image)
+
+			image_texture = Assets.getBitmap(image_path)
 			continue
 		
 		if node_name != 'subtexture':
 			continue
 		
 		# Couldn't find texture from imagePath in TextureAtlas.
-		if texture == null:
+		if image_texture == null:
 			return ERR_FILE_MISSING_DEPENDENCIES
 
 		var frame = sparrow_frame_class.new()

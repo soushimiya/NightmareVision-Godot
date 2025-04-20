@@ -80,6 +80,12 @@ func sectionHit():
 			Conductor.bpm = PlayState.SONG.notes[curSection].bpm
 
 func switchState(state):
-	get_node("/root/Main/game").add_child(state.instantiate())
-	get_node("/root/Main/game").remove_child(self)
-	self.queue_free()
+	
+	$/root/Main/transition/player.play("defaultIn")
+	$/root/Main/transition/player.animation_finished.connect(func(name):
+		if name.ends_with("In"):
+			$/root/Main/transition/player.play("defaultOut")
+			$/root/Main/game.add_child(state.instantiate())
+			$/root/Main/game.remove_child(self)
+			self.queue_free()
+	)

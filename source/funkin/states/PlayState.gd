@@ -106,6 +106,8 @@ func setStageData(stageData):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$/root/Main/music.stop()
+	
 	if (SONG == null):
 		SONG = Song.loadFromJson('test', 'tutorial')
 		
@@ -262,8 +264,8 @@ func _process(delta: float) -> void:
 		for note in unspawnNotes:
 			if (note.strumTime - Conductor.songPosition < time && !note.spawned):
 				unspawnNotes.erase(note)
-				var desiredPlayfield = $hud/playFields.get_children()[note.lane]
-				if (desiredPlayfield != null): $hud/playFields.get_children()[note.lane].addNote(note)
+				var desiredPlayfield = $hud/playFields.get_child(note.lane)
+				if (desiredPlayfield != null): $hud/playFields.get_child(note.lane).addNote(note)
 				$hud/notes.add_child(note)
 				note.spawned = true
 				
@@ -274,12 +276,12 @@ func _process(delta: float) -> void:
 			if (daNote.lane > (SONG.lanes - 1)): continue
 			var field = daNote.playField
 			
-			var strumX:float = field.get_children()[daNote.noteData].global_position.x
-			var strumY:float = field.get_children()[daNote.noteData].global_position.y
-			#var strumAngle:float = field.get_children()[daNote.noteData].angle
-			var strumDirection:float = field.get_children()[daNote.noteData].direction
-			#var strumAlpha:float = field.get_children()[daNote.noteData].alpha
-			var strumScroll:float = field.get_children()[daNote.noteData].downScroll
+			var strumX:float = field.get_children(daNote.noteData).global_position.x
+			var strumY:float = field.get_children(daNote.noteData).global_position.y
+			#var strumAngle:float = field.get_children(daNote.noteData).angle
+			var strumDirection:float = field.get_children(daNote.noteData).direction
+			#var strumAlpha:float = field.get_children(daNote.noteData).alpha
+			var strumScroll:float = field.get_children(daNote.noteData).downScroll
 			
 			strumX += daNote.offsetX * (daNote.scale.x / daNote.baseScaleX);
 			strumY += daNote.offsetY

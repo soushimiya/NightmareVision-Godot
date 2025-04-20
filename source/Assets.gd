@@ -22,4 +22,4 @@ static func getSparrowAtlas(path:String) -> SpriteFrames:
 	return null
 	
 static func exists(path) -> bool:
-	return FileAccess.file_exists(path)
+	return (FileAccess.file_exists(path))

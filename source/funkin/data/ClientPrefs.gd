@@ -5,3 +5,4 @@ static var safeFrames:float = 10.0
 static var camZooms:bool = true
 static var downScroll:bool = false
 static var middleScroll:bool = false
+static var flashing:bool = true
