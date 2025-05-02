@@ -1,18 +1,32 @@
 # NightmareVision Godot
-A rewrite of NightmareVision with completely different Lua support than Psych, and (future) tighter compatibility with the base engine.
+Fucking boring shit!
 
-## ToDo
+## Credits
+### DuskieWhy, Data
+Made NightmareVision
+### Cherry
+godot_sparrow addon (Will be replaced soon)
+
+## ToDo (NOT REALLY LOL)
 ### High Priority
 - [ ] Gameplay
     - [ ] Implement PlayField
 - [ ] Scripting
-    - [ ] make able to call custom functions
-- [ ] Rework Asset System
-    - [ ] implement Mod/Content system
-### Mid Priority
+    - FunkinLua Compat
+- [ ] Redo Asset System
+    - [x] implement Mod/Content system
+    - [] Better cache cleaning shits
 - [ ] Menus
+    - [x] Splash
+    - [] Title Screen
+    - [x] Main Menu
+    - [] Story Mode
+    - [] Freeplay
+    - [] Options
+    - [] Credits (in progress!)
 ### Low Priority or Almost never
 - [ ] HScript
     - I plan to do this once I find a good godot haxe backend (or manually port the whole of HScript myself...)
 - [ ] Modchart
-    - The way it works should be based on FunkinModchart.
+    - The way it works should be based on FunkinModchart....??????
+    (actually I don't know much about modchart)

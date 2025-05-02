@@ -30,6 +30,7 @@ var unspawnNotes:Array = []
 
 var camFollow:Vector2 = Vector2()
 var camFollowTarget
+var isCameraOnForcedPos:bool = false
 
 var prevCamFollow:Vector2
 var prevCamFollowPos:Node2D
@@ -230,6 +231,9 @@ func moveCamera(isDad:bool):
 func _process(delta: float) -> void:
 	super(delta)
 	
+	if (generatedMusic && !endingSong && !isCameraOnForcedPos):
+		moveCameraSection()
+	
 	if Input.is_action_pressed("ui_left"):
 		moveCamera(true)
 	if Input.is_action_pressed("ui_right"):
@@ -312,3 +316,10 @@ func beatHit():
 func sectionHit():
 	super()
 	playHUD.sectionHit()
+
+func moveCameraSection():
+	if (SONG.notes[curSection] == null):
+		return
+		
+	if (SONG.notes[curSection].has("gfSection") && SONG.notes[curSection].gfSection):
+		pass
