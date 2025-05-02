@@ -15,15 +15,15 @@ godot_sparrow addon (Will be replaced soon)
     - FunkinLua Compat
 - [ ] Redo Asset System
     - [x] implement Mod/Content system
-    - [] Better cache cleaning shits
+    - [ ] Better cache cleaning shits
 - [ ] Menus
     - [x] Splash
-    - [] Title Screen
+    - [ ] Title Screen
     - [x] Main Menu
-    - [] Story Mode
-    - [] Freeplay
-    - [] Options
-    - [] Credits (in progress!)
+    - [ ] Story Mode
+    - [ ] Freeplay
+    - [ ] Options
+    - [ ] Credits (in progress!)
 ### Low Priority or Almost never
 - [ ] HScript
     - I plan to do this once I find a good godot haxe backend (or manually port the whole of HScript myself...)
