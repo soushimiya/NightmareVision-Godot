@@ -57,9 +57,6 @@ static func xml(path:String, folder:String = "data") -> String:
 static func json(path:String, folder:String = "data") -> String:
 	return getPath(folder + "/" + path + ".json")
 
-static func lua(path:String) -> String:
-	return getPath(path + ".lua")
-
 static func video(path:String, folder:String = "videos") -> String:
 	return getPath(folder + "/" + path + ".mp4")
 	

@@ -11,8 +11,6 @@ godot_sparrow addon (Will be replaced soon)
 ### High Priority
 - [ ] Gameplay
     - [ ] Implement PlayField
-- [ ] Scripting
-    - FunkinLua Compat
 - [ ] Redo Asset System
     - [x] implement Mod/Content system
     - [ ] Better cache cleaning shits
